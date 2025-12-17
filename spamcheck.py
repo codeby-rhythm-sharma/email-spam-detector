@@ -12,5 +12,51 @@ def is_spam(text):
         return "⚠️ SPAM ALERT\nFound keywords:\n" + "\n".join("- " + w for w in hits)
     return "✔️ Not spam. No suspicious keywords detected."
 
-email = input("Enter email text: ")
-print(is_spam(email))
+def main():
+    sender_email = input("Enter sender email address: ")
+    email_text = input("Enter email text: ")
+
+    spam_result = is_spam(email_text)
+    domain_score = sender_domain_score(sender_email)
+
+    if "SPAM ALERT" in spam_result or domain_score >= 2:
+        print("⚠️ High risk email detected\n")
+    else:
+        print("✔️ Email appears safe\n")
+
+    print(spam_result)
+
+SUSPICIOUS_DOMAINS = [
+    "mail-update.xyz",
+    "secure-login.net",
+    "account-alerts.co",
+    "verify-now.info"
+]
+
+def sender_domain_score(sender_email):
+    if "@" not in sender_email:
+        return 1  # malformed sender address
+
+    domain = sender_email.split("@")[-1].lower()
+
+    if domain in SUSPICIOUS_DOMAINS:
+        return 2
+
+    return 0
+def main():
+    sender_email = input("Enter sender email address: ")
+    email_text = input("Enter email text: ")
+
+    spam_result = is_spam(email_text)
+    domain_score = sender_domain_score(sender_email)
+
+    if "SPAM ALERT" in spam_result or domain_score >= 2:
+        print("⚠️ High risk email detected\n")
+    else:
+        print("✔️ Email appears safe\n")
+
+    print(spam_result)
+
+
+if __name__ == "__main__":
+    main()
